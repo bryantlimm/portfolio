@@ -51,7 +51,7 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-bold hover:bg-blue-700 transition">
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded font-bold hover:bg-blue-700 transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">
             Enter Dashboard
           </button>
         </form>

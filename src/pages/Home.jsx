@@ -73,10 +73,10 @@ const Home = () => {
               transition={{ delay: 0.3 }}
               className="flex gap-4"
             >
-              <a href="#projects" className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-200">
+              <a href="#projects" className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">
                 View Work
               </a>
-              <a href="/contact" className="px-8 py-3 bg-white text-gray-700 border border-gray-200 rounded-full font-bold hover:bg-gray-50 transition-all">
+              <a href="/contact" className="px-8 py-3 bg-white/60 text-gray-700 rounded-full font-bold hover:bg-white/70 transition-all backdrop-blur-lg border border-white/50 shadow-lg shadow-white/20 hover:scale-105 hover:shadow-xl hover:shadow-white/30 duration-300">
                 Contact Me
               </a>
             </motion.div>
@@ -84,13 +84,11 @@ const Home = () => {
 
           {/* Image Side (We will make this dynamic next!) */}
           <div className="md:w-1/2 flex justify-center relative">
-            <div className="w-80 h-80 md:w-96 md:h-96 bg-gray-200 rounded-full overflow-hidden border-8 border-white shadow-2xl z-10">
-               <img 
-                    src={hero.imageUrl || "https://via.placeholder.com/400"} 
-                    alt="Profile" 
-                    className="w-full h-full object-cover" 
-                />
-            </div>
+            <img 
+              src={hero.imageUrl || "https://via.placeholder.com/400"} 
+              alt="Profile" 
+              className="w-80 h-80 md:w-96 md:h-96 object-cover shadow-2xl z-10" 
+            />
           </div>
         </div>
       </div>

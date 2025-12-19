@@ -269,8 +269,8 @@ const AdminDashboard = () => {
                 <input type="file" multiple onChange={(e) => setProjectFiles(Array.from(e.target.files))} className="block w-full text-sm mt-1"/>
                 <textarea required placeholder="Description" value={newProject.description} onChange={e => setNewProject({...newProject, description: e.target.value})} className="w-full p-2 border rounded" rows="3"/>
                 <div className="flex gap-2">
-                  <button disabled={loading} className="flex-1 py-2 bg-blue-600 text-white rounded font-bold">{editingProjId ? "Update" : "Add"}</button>
-                  {editingProjId && <button type="button" onClick={()=>{setEditingProjId(null); setNewProject({title:'', category:'photography', description:'', date:''})}} className="px-3 bg-gray-200 rounded">Cancel</button>}
+                  <button disabled={loading} className="flex-1 py-2 bg-blue-600 text-white rounded font-bold hover:bg-blue-700 transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 disabled:opacity-50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">{editingProjId ? "Update" : "Add"}</button>
+                  {editingProjId && <button type="button" onClick={()=>{setEditingProjId(null); setNewProject({title:'', category:'photography', description:'', date:''})}} className="px-3 bg-gray-200/60 rounded font-bold hover:bg-gray-200/70 transition-all backdrop-blur-lg border border-gray-300/50 shadow-lg shadow-gray-200/20 hover:scale-105 hover:shadow-md hover:shadow-gray-300/30 duration-300">Cancel</button>}
                 </div>
               </form>
             </div>
@@ -331,7 +331,7 @@ const AdminDashboard = () => {
                    />
                 </div>
                 <div className="flex gap-2">
-                  <button disabled={loading} className="flex-1 py-2 bg-blue-600 text-white rounded font-bold">{editingExpId ? "Update" : "Add"}</button>
+                  <button disabled={loading} className="flex-1 py-2 bg-blue-600 text-white rounded font-bold hover:bg-blue-700 transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 disabled:opacity-50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">{editingExpId ? "Update" : "Add"}</button>
                   {editingExpId && <button type="button" onClick={()=>{setEditingExpId(null); setExpForm({title:'', type:'development', company:'', place:'', period:'', description:'', skills:[]})}} className="px-3 bg-gray-200 rounded">Cancel</button>}
                 </div>
               </form>
@@ -430,7 +430,7 @@ const AdminDashboard = () => {
               <input value={heroData.name} onChange={e => setHeroData({...heroData, name: e.target.value})} placeholder="Full Name" className="w-full p-3 border rounded-lg bg-gray-50 font-bold text-center text-lg"/>
               <input value={heroData.title} onChange={e => setHeroData({...heroData, title: e.target.value})} placeholder="Job Title" className="w-full p-3 border rounded-lg bg-gray-50 text-center"/>
               <textarea value={heroData.description} onChange={e => setHeroData({...heroData, description: e.target.value})} placeholder="Short Intro Bio" className="w-full p-3 border rounded-lg bg-gray-50 h-32 text-center" />
-              <button disabled={loading} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition shadow-lg shadow-blue-200">{loading ? "Saving..." : "Save Changes"}</button>
+              <button disabled={loading} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 disabled:opacity-50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">{loading ? "Saving..." : "Save Changes"}</button>
             </form>
           </div>
         )}
@@ -463,7 +463,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   
-                  <button disabled={loading} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition shadow-lg shadow-blue-200">
+                  <button disabled={loading} className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 disabled:opacity-50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">
                     {loading ? "Saving..." : "Save About Page"}
                   </button>
                </form>
