@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white/80 backdrop-blur-md rounded-full border border-gray-200 px-8 py-3 shadow-lg">
+      <div className="flex items-center justify-between gap-8">
         {/* Logo / Name */}
         <Link to="/" className="text-xl font-bold text-blue-600">
           Portfolio
