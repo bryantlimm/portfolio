@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between gap-8">
         {/* Logo / Name */}
         <Link to="/" className="text-xl font-bold text-blue-600">
-          Portfolio
+            Bryant
         </Link>
 
         {/* Navigation Links */}

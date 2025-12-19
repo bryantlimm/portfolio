@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore'; // Import Firestore tools
 import HomeProjects from '../components/HomeProjects';
 import HomeExperience from '../components/HomeExperience';
 import HomeSkills from '../components/HomeSkills';
+import Footer from '../components/Footer';
 
 const Home = () => {
   // 1. Create State to hold the data
