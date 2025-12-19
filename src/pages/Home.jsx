@@ -1,0 +1,1 @@
+export default function Home() { return <div className="pt-20 p-8"><h1>Home Page</h1></div> }

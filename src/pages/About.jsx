@@ -1,0 +1,1 @@
+export default function About() { return <div className="pt-20 p-8"><h1>About Me</h1></div> }

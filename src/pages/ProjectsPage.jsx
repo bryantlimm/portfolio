@@ -1,0 +1,1 @@
+export default function ProjectsPage() { return <div className="pt-20 p-8"><h1>All Projects</h1></div> }
