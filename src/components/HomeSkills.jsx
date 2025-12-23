@@ -53,7 +53,10 @@ const HomeSkills = () => {
                 initial={{ width: 0 }}
                 whileInView={{ width: `${skill.score}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className={`h-full rounded-full ${color.replace('text-', 'bg-')}`} // Uses the text color class as bg color
+                style={{
+                  backgroundColor: color === 'text-blue-600' ? '#2563eb' : color === 'text-purple-600' ? '#9333ea' : '#16a34a'
+                }}
+                className="h-full rounded-full"
               />
             </div>
           </div>

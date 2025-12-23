@@ -44,7 +44,7 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-blue-600 font-bold tracking-wider uppercase mb-2 block"
             >
-              {hero.title} {/* <--- DYNAMIC */}
+              {hero.title} 
             </motion.span>
             
             <motion.h1 
@@ -55,7 +55,7 @@ const Home = () => {
             >
               Hi, I'm <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                {hero.name} {/* <--- DYNAMIC */}
+                {hero.name} 
               </span>
             </motion.h1>
 
@@ -65,7 +65,7 @@ const Home = () => {
               transition={{ delay: 0.2 }}
               className="text-xl text-gray-600 mb-8 leading-relaxed"
             >
-              {hero.description} {/* <--- DYNAMIC */}
+              {hero.description}
             </motion.p>
 
             <motion.div 
@@ -77,7 +77,7 @@ const Home = () => {
               <a href="#projects" className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all backdrop-blur-lg shadow-lg shadow-blue-300/30 border border-blue-500/50 hover:scale-105 hover:shadow-xl hover:shadow-blue-400/40 duration-300">
                 View Work
               </a>
-              <a href="/contact" className="px-8 py-3 bg-white/60 text-gray-700 rounded-full font-bold hover:bg-white/70 transition-all backdrop-blur-lg border border-white/50 shadow-lg shadow-white/20 hover:scale-105 hover:shadow-xl hover:shadow-white/30 duration-300">
+              <a href="#footer" className="px-8 py-3 bg-gradient-to-br from-white/80 to-gray-200/60 text-gray-700 rounded-full font-bold hover:from-white/90 hover:to-gray-200/70 transition-all backdrop-blur-lg border border-white/60 shadow-md shadow-gray-300/40 hover:scale-105 hover:shadow-lg hover:shadow-gray-400/50 duration-300">
                 Contact Me
               </a>
             </motion.div>
