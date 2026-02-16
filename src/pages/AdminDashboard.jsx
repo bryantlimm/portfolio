@@ -9,6 +9,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus, X, Pencil, Briefcase, Code, Image as ImageIcon, MapPin, User } from 'lucide-react';
+import imageCompression from 'browser-image-compression';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -119,18 +120,58 @@ const AdminDashboard = () => {
   const handleSaveProject = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      let imageUrls = editingProjId ? (projects.find(p => p.id === editingProjId).images || []) : [];
+      // 1. SETUP COMPRESSION OPTIONS
+      const options = {
+        maxSizeMB: 1,           // Compress to ~1MB or less
+        maxWidthOrHeight: 1920, // Resize wide images to 1920px
+        useWebWorker: true,
+      };
+
+      // Get existing images if we are editing
+      let imageUrls = editingProjId 
+        ? (projects.find(p => p.id === editingProjId)?.images || []) 
+        : [];
+
+      // 2. LOOP THROUGH NEW FILES
       if (projectFiles.length > 0) {
         const newUrls = [];
+        
         for (const file of projectFiles) {
+          console.log(`Original: ${file.name} size: ${(file.size/1024/1024).toFixed(2)}MB`);
+          
+          // --- COMPRESSION MAGIC HAPPENS HERE ---
+          let uploadFile = file;
+          try {
+            uploadFile = await imageCompression(file, options);
+            console.log(`Compressed: ${(uploadFile.size/1024/1024).toFixed(2)}MB`);
+          } catch (error) {
+            console.warn("Compression failed, uploading original:", error);
+          }
+          // ---------------------------------------
+
+          // Upload the COMPRESSED file
           const fileRef = ref(storage, `projects/${Date.now()}_${file.name}`);
-          await uploadBytes(fileRef, file);
-          newUrls.push(await getDownloadURL(fileRef));
+          await uploadBytes(fileRef, uploadFile);
+          
+          // Get the URL
+          const url = await getDownloadURL(fileRef);
+          newUrls.push(url);
         }
+
+        // Combine old images with new compressed images
         imageUrls = editingProjId ? [...imageUrls, ...newUrls] : newUrls;
       }
-      const projData = { ...newProject, imageUrl: imageUrls[0] || "", images: imageUrls };
+
+      // 3. SAVE DATA TO FIRESTORE
+      // We ensure 'imageUrl' (thumbnail) is the first image in the list
+      const projData = { 
+        ...newProject, 
+        imageUrl: imageUrls.length > 0 ? imageUrls[0] : "", 
+        images: imageUrls 
+      };
+
       if (editingProjId) {
         await updateDoc(doc(db, "projects", editingProjId), projData);
         showSuccess("Project Updated!");
@@ -139,11 +180,19 @@ const AdminDashboard = () => {
         await addDoc(collection(db, "projects"), projData);
         showSuccess("Project Added!");
       }
+
+      // Reset Form
       setNewProject({ title: '', category: 'photography', description: '', date: '' });
       setProjectFiles([]);
-    } catch (err) { alert(err.message); }
-    setLoading(false);
-  };
+
+    } catch (err) { 
+      console.error(err);
+      alert(err.message); 
+    } finally {
+      setLoading(false);
+    }
+};
+  
   const handleEditProject = (p) => {
     setNewProject(p);
     setEditingProjId(p.id);
