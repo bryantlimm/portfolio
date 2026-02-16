@@ -88,7 +88,7 @@ const Home = () => {
             <img 
               src={hero.imageUrl || "https://via.placeholder.com/400"} 
               alt="Profile" 
-              className="w-80 h-80 md:w-96 md:h-96 object-cover shadow-2xl z-10" 
+              className="w-80 h-80 md:w-96 md:h-96 object-cover z-10" 
             />
           </div>
         </div>

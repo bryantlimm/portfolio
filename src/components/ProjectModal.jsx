@@ -5,18 +5,46 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const ProjectModal = ({ project, onClose }) => {
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const [touchStart, setTouchStart] = React.useState(null);
+  const [touchEnd, setTouchEnd] = React.useState(null);
 
   if (!project) return null;
 
+  const minSwipeDistance = 50;
+
   // Handle Carousel Navigation
   const nextImage = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
   };
 
   const prevImage = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setCurrentImageIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
+  };
+
+  // Handle Swipe
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      nextImage();
+    }
+    if (isRightSwipe) {
+      prevImage();
+    }
   };
 
   return (
@@ -37,7 +65,12 @@ const ProjectModal = ({ project, onClose }) => {
         >
           
           {/* Left Side: Image Carousel */}
-          <div className="w-full md:w-2/3 bg-gray-900 relative h-64 md:h-auto flex items-center justify-center group">
+          <div 
+            className="w-full md:w-2/3 bg-gray-900 relative h-64 md:h-auto flex items-center justify-center group"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <img 
               src={project.images[currentImageIndex]} 
               alt={project.title} 

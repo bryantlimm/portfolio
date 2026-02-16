@@ -40,8 +40,15 @@ const HomeProjects = () => {
     fetchProjects();
   }, []);
 
-  // Filter content
-  const filteredCreative = creativeProjects.filter(p => p.category === activeTab);
+  // Filter content - limit photography and graphic design to 4 most recent items
+  let filteredCreative = creativeProjects.filter(p => p.category === activeTab);
+  
+  if ((activeTab === 'photography' || activeTab === 'graphic design') && filteredCreative.length > 4) {
+    // Sort by date (most recent first) and take only 4
+    filteredCreative = filteredCreative
+      .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+      .slice(0, 4);
+  }
 
   return (
     <section className="py-20 bg-white" id="projects">

@@ -90,7 +90,7 @@ const HomeSkills = () => {
           />
 
           <SkillCard 
-            title="Impact" 
+            title="Other" // initially this was "impact", variable nya masih "impact"
             icon={HeartHandshake} 
             color="text-green-600" 
             items={impactSkills} 
