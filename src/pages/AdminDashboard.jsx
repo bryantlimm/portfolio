@@ -313,6 +313,7 @@ const AdminDashboard = () => {
                   <option value="photography">Photography</option>
                   <option value="graphic design">Graphic Design</option>
                   <option value="development">Development</option>
+                  <option value="other">Other</option>
                 </select>
                 <input required placeholder="Date" value={newProject.date} onChange={e => setNewProject({...newProject, date: e.target.value})} className="w-full p-2 border rounded"/>
                 <input type="file" multiple onChange={(e) => setProjectFiles(Array.from(e.target.files))} className="block w-full text-sm mt-1"/>

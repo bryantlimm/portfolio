@@ -40,10 +40,10 @@ const HomeProjects = () => {
     fetchProjects();
   }, []);
 
-  // Filter content - limit photography and graphic design to 4 most recent items
+  // Filter content - limit photography, graphic design, and other to 4 most recent items
   let filteredCreative = creativeProjects.filter(p => p.category === activeTab);
   
-  if ((activeTab === 'photography' || activeTab === 'graphic design') && filteredCreative.length > 4) {
+  if ((activeTab === 'photography' || activeTab === 'graphic design' || activeTab === 'other') && filteredCreative.length > 4) {
     // Sort by date (most recent first) and take only 4
     filteredCreative = filteredCreative
       .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
@@ -57,7 +57,7 @@ const HomeProjects = () => {
         <h2 className="text-4xl font-bold text-gray-900 mb-8">Projects</h2>
 
         <div className="flex gap-4 mb-12 overflow-x-auto pb-2">
-          {['development', 'photography', 'graphic design'].map((tab) => (
+          {['development', 'photography', 'graphic design', 'other'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -91,7 +91,7 @@ const HomeProjects = () => {
           ))}
 
           {/* CREATIVE TABS (Firebase Data) */}
-          {(activeTab === 'photography' || activeTab === 'graphic design') && filteredCreative.map((project) => (
+          {(activeTab === 'photography' || activeTab === 'graphic design' || activeTab === 'other') && filteredCreative.map((project) => (
             <motion.div
               key={project.id}
               layoutId={`project-${project.id}`}

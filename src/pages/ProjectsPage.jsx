@@ -37,7 +37,7 @@ const ProjectsPage = () => {
     fetchProjects();
   }, []);
 
-  const categories = ['All', 'Development', 'Photography', 'Graphic Design'];
+  const categories = ['All', 'Development', 'Photography', 'Graphic Design', 'Other'];
   
   // Filter logic
   const filteredFirebaseProjects = activeTab === 'All' 
