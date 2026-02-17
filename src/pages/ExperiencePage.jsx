@@ -10,6 +10,7 @@ const ExperiencePage = () => {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedExp, setSelectedExp] = useState(null); // State for Modal
+  const [activeTab, setActiveTab] = useState('All');
 
   useEffect(() => {
     const fetchExperience = async () => {
@@ -30,10 +31,17 @@ const ExperiencePage = () => {
   const getTypeColor = (type) => {
     switch(type) {
       case 'creative': return 'bg-purple-100 text-purple-700 border-purple-200';
-      case 'impact': return 'bg-green-100 text-green-700 border-green-200';
+      case 'leadership': return 'bg-green-100 text-green-700 border-green-200';
       default: return 'bg-blue-100 text-blue-700 border-blue-200';
     }
   };
+
+  const categories = ['All', 'development', 'creative', 'leadership']; // Add more categories as needed
+  
+  // Filter logic
+  const filteredExperiences = activeTab === 'All'
+    ? experiences
+    : experiences.filter(exp => exp.type.toLowerCase() === activeTab.toLowerCase());
 
   return (
     <div className="min-h-screen bg-gray-50 pt-32 pb-20">
@@ -46,15 +54,29 @@ const ExperiencePage = () => {
         >
           <h1 className="text-5xl font-extrabold text-gray-900 mb-4">Work Experience</h1>
           <p className="text-xl text-gray-500 max-w-2xl">
-            A timeline of my professional journey, covering development, design, and impact roles.
+            A timeline of my professional journey, covering development, design, and leadership roles.
           </p>
         </motion.div>
+
+        {/* Filter Tabs */}
+        <div className="flex gap-4 mb-12 overflow-x-auto pb-2">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveTab(cat)}
+              className={`px-6 py-2 rounded-full text-sm font-bold transition-all whitespace-nowrap duration-300 hover:scale-105
+                ${activeTab === cat ? 'bg-blue-600 text-white shadow-lg shadow-blue-300/30 backdrop-blur-lg border border-blue-500/50 hover:shadow-xl hover:shadow-blue-400/40' : 'bg-gray-100/60 text-gray-600 hover:bg-gray-100/70 backdrop-blur-lg border border-gray-300/50 shadow-sm shadow-gray-200/20 hover:shadow-md hover:shadow-gray-300/30'}`}
+            >
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </button>
+          ))}
+        </div>
 
         {loading ? (
           <div className="text-center py-20 text-gray-400">Loading specific data...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {experiences.map((exp, index) => (
+            {filteredExperiences.map((exp, index) => (
               <motion.div 
                 layoutId={`exp-${exp.id}`}
                 key={exp.id}
@@ -102,8 +124,8 @@ const ExperiencePage = () => {
           </div>
         )}
 
-        {!loading && experiences.length === 0 && (
-          <div className="text-center py-20 text-gray-400">No experience entries found yet.</div>
+        {!loading && filteredExperiences.length === 0 && (
+          <div className="text-center py-20 text-gray-400">No experience entries found in this category.</div>
         )}
 
       </div>

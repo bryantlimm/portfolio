@@ -10,7 +10,7 @@ const ExperienceModal = ({ experience, onClose }) => {
   const getTypeColor = (type) => {
     switch(type) {
       case 'creative': return 'bg-purple-100 text-purple-700 border-purple-200';
-      case 'impact': return 'bg-green-100 text-green-700 border-green-200';
+      case 'leadership': return 'bg-green-100 text-green-700 border-green-200';
       default: return 'bg-blue-100 text-blue-700 border-blue-200';
     }
   };

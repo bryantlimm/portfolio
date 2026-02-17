@@ -21,7 +21,7 @@ const HomeSkills = () => {
   // Filter helpers
   const devSkills = skills.filter(s => (s.type === 'development' || !s.type)); // Fallback to dev if undefined
   const creativeSkills = skills.filter(s => s.type === 'creative');
-  const impactSkills = skills.filter(s => s.type === 'impact');
+  const impactSkills = skills.filter(s => s.type === 'other');
 
   // Reusable Component for a Single Skill Column
   const SkillCard = ({ title, icon: Icon, color, items, delay }) => (

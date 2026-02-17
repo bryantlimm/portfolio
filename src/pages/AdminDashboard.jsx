@@ -353,7 +353,7 @@ const AdminDashboard = () => {
                    <select value={expForm.type} onChange={e => setExpForm({...expForm, type: e.target.value})} className="w-full p-2 border rounded">
                     <option value="development">Development</option>
                     <option value="creative">Creative</option>
-                    <option value="impact">Impact</option>
+                    <option value="leadership">Leadership</option>
                   </select>
                   <input required placeholder="Company" value={expForm.company} onChange={e => setExpForm({...expForm, company: e.target.value})} className="w-full p-2 border rounded"/>
                 </div>
@@ -425,7 +425,7 @@ const AdminDashboard = () => {
                    <select value={skillForm.type || 'development'} onChange={e => setSkillForm({...skillForm, type: e.target.value})} className="w-full p-2 border rounded">
                      <option value="development">Development</option>
                      <option value="creative">Creative</option>
-                     <option value="impact">Impact</option>
+                     <option value="leadership">Leadership</option>
                    </select>
                 </div>
                 <div>
