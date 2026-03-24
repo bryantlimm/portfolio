@@ -11,9 +11,9 @@ import Footer from '../components/Footer';
 const Home = () => {
   // 1. Create State to hold the data
   const [hero, setHero] = useState({
-    name: "Bryant Limm",
+    name: "Bryant Aryadi",
     title: "Full Stack Developer",
-    description: "Welcome to my portfolio."
+    description: ""
   });
 
   // 2. Fetch from Firebase

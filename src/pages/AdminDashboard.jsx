@@ -10,6 +10,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus, X, Pencil, Briefcase, Code, Image as ImageIcon, MapPin, User } from 'lucide-react';
 import imageCompression from 'browser-image-compression';
+import BekasBryantAdmin from "../components/BekasBryantAdmin";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -291,7 +292,8 @@ const AdminDashboard = () => {
             { id: 'experience', icon: <Briefcase size={18}/>, label: 'Experience' },
             { id: 'skills', icon: <Code size={18}/>, label: 'Skills' },
             { id: 'profile', icon: <Pencil size={18}/>, label: 'Home Hero' },
-            { id: 'about', icon: <User size={18}/>, label: 'About Page' }, // NEW TAB
+            { id: 'about', icon: <User size={18}/>, label: 'About Page' },
+            { id: 'bekasbryant', label: 'Bekas Bryant' },
           ].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-6 py-3 rounded-t-lg font-bold transition ${activeTab === tab.id ? 'bg-white text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}>
@@ -541,6 +543,12 @@ const AdminDashboard = () => {
           </div>
         )}
 
+        {/* Bekas Bryant */}
+        {activeTab === 'bekasbryant' && (
+          <div className="bg-white rounded-2xl shadow p-5">
+            <BekasBryantAdmin />
+          </div>
+        )}
       </div>
     </div>
   );
