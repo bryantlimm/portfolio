@@ -128,7 +128,7 @@ const BookkeepingData = () => {
       {/* Topbar */}
       <div style={styles.topbar} className="bookkeeping-data-topbar">
         <div style={styles.topbarLeft}>
-          <span style={styles.logo}>₊ Ledger</span>
+          <span style={styles.logo}>₊ Hemat woi</span>
         </div>
         <div style={styles.topbarRight} className="bookkeeping-data-topbar-right">
           <button style={styles.navBtn} className="bookkeeping-data-nav-btn" onClick={() => navigate('/bookkeeping')}>

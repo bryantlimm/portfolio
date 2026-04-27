@@ -89,9 +89,9 @@ const BookkeepingInput = () => {
       {/* Top bar */}
       <div style={styles.topbar} className="bookkeeping-input-topbar">
         <div style={styles.topbarLeft} className="bookkeeping-input-topbar-left">
-          <span style={styles.logo} className="bookkeeping-input-logo">₊ Ledger</span>
+          <span style={styles.logo} className="bookkeeping-input-logo">₊ Hemat woi</span>
           <span style={styles.dateStamp} className="bookkeeping-input-date-stamp">
-            {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            {new Date().toLocaleDateString('en-EN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </span>
         </div>
         <div style={styles.topbarRight} className="bookkeeping-input-topbar-right">
