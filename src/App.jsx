@@ -16,7 +16,7 @@ import BookkeepingData from './pages/BookkeepingData';
 
 function AppContent() {
   const location = useLocation();
-  const hideNavbar = location.pathname.startsWith('/bekasbryant');
+  const hideNavbar = location.pathname.startsWith('/bekasbryant') || location.pathname.startsWith('/bookkeeping');
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

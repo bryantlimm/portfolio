@@ -4,6 +4,7 @@ import { db, auth } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import '../styles/bookkeeping.css';
 
 const CATEGORIES = [
   { value: 'food', label: '🍜 Food & Drinks' },
@@ -82,27 +83,27 @@ const BookkeepingInput = () => {
   return (
     <div style={styles.page}>
       {/* Top bar */}
-      <div style={styles.topbar}>
-        <div style={styles.topbarLeft}>
-          <span style={styles.logo}>₊ Ledger</span>
-          <span style={styles.dateStamp}>
+      <div style={styles.topbar} className="bookkeeping-input-topbar">
+        <div style={styles.topbarLeft} className="bookkeeping-input-topbar-left">
+          <span style={styles.logo} className="bookkeeping-input-logo">₊ Ledger</span>
+          <span style={styles.dateStamp} className="bookkeeping-input-date-stamp">
             {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </span>
         </div>
-        <div style={styles.topbarRight}>
-          <button style={styles.navBtn} onClick={() => navigate('/bookkeeping/data')}>
+        <div style={styles.topbarRight} className="bookkeeping-input-topbar-right">
+          <button style={styles.navBtn} className="bookkeeping-input-nav-btn" onClick={() => navigate('/bookkeeping/data')}>
             View Data →
           </button>
-          <button style={styles.signOutBtn} onClick={handleSignOut}>
+          <button style={styles.signOutBtn} className="bookkeeping-input-sign-out-btn" onClick={handleSignOut}>
             Sign Out
           </button>
         </div>
       </div>
 
       {/* Main */}
-      <div style={styles.main}>
-        <div style={styles.formCard}>
-          <h2 style={styles.cardTitle}>New Entry</h2>
+      <div style={styles.main} className="bookkeeping-input-main">
+        <div style={styles.formCard} className="bookkeeping-input-form-card">
+          <h2 style={styles.cardTitle} className="bookkeeping-input-card-title">New Entry</h2>
           <p style={styles.cardSub}>Record a transaction for today</p>
 
           {success && (
@@ -114,14 +115,15 @@ const BookkeepingInput = () => {
             <div style={styles.errorBanner}>{error}</div>
           )}
 
-          <form onSubmit={handleSubmit} style={styles.form}>
+          <form onSubmit={handleSubmit} style={styles.form} className="bookkeeping-input-form">
             {/* Type toggle */}
             <div style={styles.field}>
               <label style={styles.label}>TYPE</label>
-              <div style={styles.typeToggle}>
+              <div style={styles.typeToggle} className="bookkeeping-input-type-toggle">
                 <button
                   type="button"
                   style={{ ...styles.typeBtn, ...(type === 'expense' ? styles.typeBtnActive : {}) }}
+                  className="bookkeeping-input-type-btn"
                   onClick={() => setType('expense')}
                 >
                   − Expense
@@ -129,6 +131,7 @@ const BookkeepingInput = () => {
                 <button
                   type="button"
                   style={{ ...styles.typeBtn, ...(type === 'income' ? styles.typeBtnIncome : {}) }}
+                  className="bookkeeping-input-type-btn"
                   onClick={() => setType('income')}
                 >
                   + Income
@@ -144,6 +147,7 @@ const BookkeepingInput = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 style={styles.input}
+                className="bookkeeping-input-input"
                 placeholder="e.g. McDonalds with friends"
                 required
               />
@@ -152,13 +156,14 @@ const BookkeepingInput = () => {
             {/* Amount */}
             <div style={styles.field}>
               <label style={styles.label}>AMOUNT (IDR)</label>
-              <div style={styles.amountWrapper}>
-                <span style={styles.currencyPrefix}>Rp</span>
+              <div style={styles.amountWrapper} className="bookkeeping-input-amount-wrapper">
+                <span style={styles.currencyPrefix} className="bookkeeping-input-currency-prefix">Rp</span>
                 <input
                   type="text"
                   value={amount}
                   onChange={handleAmountChange}
                   style={styles.amountInput}
+                  className="bookkeeping-input-amount-input"
                   placeholder="0"
                   required
                   inputMode="numeric"
@@ -173,6 +178,7 @@ const BookkeepingInput = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 style={styles.select}
+                className="bookkeeping-input-select"
                 required
               >
                 <option value="">Select category...</option>
@@ -191,20 +197,21 @@ const BookkeepingInput = () => {
                   value={otherCategory}
                   onChange={(e) => setOtherCategory(e.target.value)}
                   style={styles.input}
+                  className="bookkeeping-input-input"
                   placeholder="Describe the category..."
                   required
                 />
               </div>
             )}
 
-            <button type="submit" style={styles.submitBtn} disabled={loading}>
+            <button type="submit" style={styles.submitBtn} className="bookkeeping-input-submit-btn" disabled={loading}>
               {loading ? 'Saving...' : 'Record Entry ↵'}
             </button>
           </form>
         </div>
 
         {/* Decorative rule */}
-        <div style={styles.aside}>
+        <div style={styles.aside} className="bookkeeping-input-aside">
           <div style={styles.ledgerLines}>
             {[...Array(12)].map((_, i) => (
               <div key={i} style={styles.ledgerLine} />

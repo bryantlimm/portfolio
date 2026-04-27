@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import '../styles/bookkeeping.css';
 
 const BookkeepingLogin = () => {
   const [email, setEmail] = useState('');
@@ -27,11 +28,11 @@ const BookkeepingLogin = () => {
 
   return (
     <div style={styles.page}>
-      <div style={styles.card}>
+      <div style={styles.card} className="bookkeeping-login-card">
         <div style={styles.header}>
           <div style={styles.ledgerIcon}>₊</div>
-          <h1 style={styles.title}>Bookkeeping</h1>
-          <p style={styles.subtitle}>Personal Finance Ledger</p>
+          <h1 style={styles.title} className="bookkeeping-login-title">Bookkeeping</h1>
+          <p style={styles.subtitle} className="bookkeeping-login-subtitle">Personal Finance Ledger</p>
         </div>
 
         {error && <div style={styles.error}>{error}</div>}
@@ -44,6 +45,7 @@ const BookkeepingLogin = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
+              className="bookkeeping-login-input"
               required
               placeholder="you@example.com"
             />
@@ -55,11 +57,12 @@ const BookkeepingLogin = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
+              className="bookkeeping-login-input"
               required
               placeholder="••••••••"
             />
           </div>
-          <button type="submit" style={styles.button} disabled={loading}>
+          <button type="submit" style={styles.button} className="bookkeeping-login-button" disabled={loading}>
             {loading ? 'Signing in...' : 'Open Ledger →'}
           </button>
         </form>

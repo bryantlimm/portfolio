@@ -1,0 +1,364 @@
+/* Bookkeeping Mobile Responsive Styles */
+
+/* ========== LOGIN PAGE ========== */
+@media (max-width: 768px) {
+  /* Login card - more compact on mobile */
+  .bookkeeping-login-card {
+    padding: 32px 24px !important;
+    margin: 16px !important;
+    max-width: 100% !important;
+  }
+
+  .bookkeeping-login-title {
+    font-size: 18px !important;
+  }
+
+  .bookkeeping-login-subtitle {
+    font-size: 10px !important;
+  }
+
+  .bookkeeping-login-input {
+    font-size: 14px !important;
+    padding: 9px 11px !important;
+  }
+
+  .bookkeeping-login-button {
+    font-size: 13px !important;
+    padding: 11px !important;
+  }
+}
+
+/* ========== INPUT PAGE ========== */
+@media (max-width: 1024px) {
+  .bookkeeping-input-main {
+    padding: 32px 16px !important;
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .bookkeeping-input-aside {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .bookkeeping-input-topbar {
+    padding: 12px 16px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .bookkeeping-input-topbar-left {
+    gap: 12px !important;
+    flex: 1 !important;
+    min-width: 100%;
+    order: 1 !important;
+  }
+
+  .bookkeeping-input-topbar-right {
+    gap: 8px !important;
+    order: 2 !important;
+    width: 100% !important;
+    justify-content: flex-end !important;
+  }
+
+  .bookkeeping-input-logo {
+    font-size: 16px !important;
+  }
+
+  .bookkeeping-input-date-stamp {
+    font-size: 11px !important;
+  }
+
+  .bookkeeping-input-nav-btn {
+    font-size: 11px !important;
+    padding: 5px 12px !important;
+  }
+
+  .bookkeeping-input-sign-out-btn {
+    font-size: 10px !important;
+  }
+
+  .bookkeeping-input-form-card {
+    padding: 28px 20px !important;
+  }
+
+  .bookkeeping-input-card-title {
+    font-size: 20px !important;
+  }
+
+  .bookkeeping-input-form {
+    gap: 16px !important;
+  }
+
+  .bookkeeping-input-amount-wrapper {
+    display: flex !important;
+  }
+
+  .bookkeeping-input-currency-prefix {
+    padding: 9px 11px !important;
+    font-size: 12px !important;
+  }
+
+  .bookkeeping-input-amount-input {
+    font-size: 16px !important;
+    padding: 9px 11px !important;
+  }
+
+  .bookkeeping-input-select,
+  .bookkeeping-input-input {
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+  }
+
+  .bookkeeping-input-type-toggle {
+    display: flex !important;
+  }
+
+  .bookkeeping-input-type-btn {
+    font-size: 12px !important;
+    padding: 9px !important;
+  }
+
+  .bookkeeping-input-submit-btn {
+    padding: 12px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* ========== DATA PAGE ========== */
+@media (max-width: 1024px) {
+  .bookkeeping-data-topbar {
+    padding: 12px 16px !important;
+  }
+
+  .bookkeeping-data-topbar-right {
+    gap: 8px !important;
+  }
+
+  .bookkeeping-data-nav-btn {
+    font-size: 11px !important;
+    padding: 5px 12px !important;
+  }
+
+  .bookkeeping-data-sign-out-btn {
+    font-size: 10px !important;
+  }
+
+  .bookkeeping-data-main {
+    padding: 28px 16px !important;
+  }
+
+  .bookkeeping-data-filter-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .bookkeeping-data-filter-left {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .bookkeeping-data-date-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .bookkeeping-data-date-input {
+    font-size: 12px !important;
+    padding: 7px 9px !important;
+    flex: 1 !important;
+  }
+
+  .bookkeeping-data-date-sep {
+    display: none !important;
+  }
+
+  .bookkeeping-data-refresh-btn {
+    font-size: 11px !important;
+    padding: 7px 14px !important;
+    width: 100% !important;
+  }
+
+  .bookkeeping-data-export-btn {
+    font-size: 12px !important;
+    padding: 8px 18px !important;
+    width: 100% !important;
+  }
+
+  .bookkeeping-data-summary-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .bookkeeping-data-summary-card {
+    padding: 14px 16px !important;
+  }
+
+  .bookkeeping-data-summary-label {
+    font-size: 9px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .bookkeeping-data-summary-amount {
+    font-size: 16px !important;
+  }
+
+  .bookkeeping-data-tabs {
+    gap: 0 !important;
+  }
+
+  .bookkeeping-data-tab {
+    padding: 8px 16px !important;
+    font-size: 11px !important;
+  }
+
+  .bookkeeping-data-table-card {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .bookkeeping-data-table {
+    font-size: 12px !important;
+  }
+
+  .bookkeeping-data-th {
+    padding: 10px 12px !important;
+    font-size: 9px !important;
+  }
+
+  .bookkeeping-data-td {
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+
+  .bookkeeping-data-type-pill {
+    font-size: 10px !important;
+    padding: 2px 7px !important;
+  }
+
+  .bookkeeping-data-charts-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    padding-top: 16px !important;
+  }
+
+  .bookkeeping-data-chart-card {
+    padding: 20px !important;
+  }
+
+  .bookkeeping-data-chart-title {
+    font-size: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .bookkeeping-data-bar-row {
+    gap: 8px !important;
+  }
+
+  .bookkeeping-data-bar-label {
+    font-size: 11px !important;
+    width: 100px !important;
+  }
+
+  .bookkeeping-data-bar-amount {
+    font-size: 10px !important;
+    width: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small devices */
+  .bookkeeping-login-card {
+    padding: 24px 18px !important;
+    box-shadow: 2px 2px 0px #c8b89a !important;
+  }
+
+  .bookkeeping-input-topbar,
+  .bookkeeping-data-topbar {
+    padding: 10px 12px !important;
+  }
+
+  .bookkeeping-input-topbar-left,
+  .bookkeeping-input-topbar-right {
+    width: 100% !important;
+  }
+
+  .bookkeeping-input-form-card {
+    padding: 20px 16px !important;
+  }
+
+  .bookkeeping-data-summary-cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .bookkeeping-data-summary-card {
+    padding: 12px 14px !important;
+  }
+
+  .bookkeeping-data-summary-label {
+    font-size: 8px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .bookkeeping-data-summary-amount {
+    font-size: 14px !important;
+  }
+
+  .bookkeeping-data-tab {
+    padding: 6px 12px !important;
+    font-size: 10px !important;
+  }
+
+  .bookkeeping-data-th {
+    padding: 8px 10px !important;
+    font-size: 8px !important;
+  }
+
+  .bookkeeping-data-td {
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+  }
+
+  .bookkeeping-data-bar-chart-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .bookkeeping-data-bar-label {
+    width: 80px !important;
+    font-size: 10px !important;
+  }
+
+  .bookkeeping-data-bar-amount {
+    font-size: 9px !important;
+  }
+
+  .bookkeeping-input-select,
+  .bookkeeping-input-input {
+    font-size: 16px !important;
+  }
+}
+
+/* Ensure table doesn't overflow */
+.bookkeeping-data-table-wrapper {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  width: 100% !important;
+}
+
+/* Touch-friendly buttons */
+@media (hover: none) and (pointer: coarse) {
+  .bookkeeping-input-nav-btn,
+  .bookkeeping-input-sign-out-btn,
+  .bookkeeping-data-nav-btn,
+  .bookkeeping-data-sign-out-btn,
+  .bookkeeping-input-submit-btn,
+  .bookkeeping-data-export-btn,
+  .bookkeeping-data-refresh-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+}

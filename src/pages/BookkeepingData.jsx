@@ -5,6 +5,7 @@ import { collection, query, where, orderBy, getDocs, Timestamp } from 'firebase/
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
+import '../styles/bookkeeping.css';
 
 const CATEGORY_LABELS = {
   food: 'Food & Drinks',
@@ -124,64 +125,65 @@ const BookkeepingData = () => {
   return (
     <div style={styles.page}>
       {/* Topbar */}
-      <div style={styles.topbar}>
+      <div style={styles.topbar} className="bookkeeping-data-topbar">
         <div style={styles.topbarLeft}>
           <span style={styles.logo}>₊ Ledger</span>
         </div>
-        <div style={styles.topbarRight}>
-          <button style={styles.navBtn} onClick={() => navigate('/bookkeeping')}>
+        <div style={styles.topbarRight} className="bookkeeping-data-topbar-right">
+          <button style={styles.navBtn} className="bookkeeping-data-nav-btn" onClick={() => navigate('/bookkeeping')}>
             ← New Entry
           </button>
-          <button style={styles.signOutBtn} onClick={handleSignOut}>Sign Out</button>
+          <button style={styles.signOutBtn} className="bookkeeping-data-sign-out-btn" onClick={handleSignOut}>Sign Out</button>
         </div>
       </div>
 
-      <div style={styles.main}>
+      <div style={styles.main} className="bookkeeping-data-main">
         {/* Date range + export */}
-        <div style={styles.filterBar}>
-          <div style={styles.filterLeft}>
-            <div style={styles.dateGroup}>
+        <div style={styles.filterBar} className="bookkeeping-data-filter-bar">
+          <div style={styles.filterLeft} className="bookkeeping-data-filter-left">
+            <div style={styles.dateGroup} className="bookkeeping-data-date-group">
               <label style={styles.label}>FROM</label>
-              <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={styles.dateInput} />
+              <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={styles.dateInput} className="bookkeeping-data-date-input" />
             </div>
-            <span style={styles.dateSep}>—</span>
-            <div style={styles.dateGroup}>
+            <span style={styles.dateSep} className="bookkeeping-data-date-sep">—</span>
+            <div style={styles.dateGroup} className="bookkeeping-data-date-group">
               <label style={styles.label}>TO</label>
-              <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} style={styles.dateInput} />
+              <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} style={styles.dateInput} className="bookkeeping-data-date-input" />
             </div>
-            <button style={styles.refreshBtn} onClick={fetchData}>Refresh</button>
+            <button style={styles.refreshBtn} className="bookkeeping-data-refresh-btn" onClick={fetchData}>Refresh</button>
           </div>
-          <button style={styles.exportBtn} onClick={handleExport} disabled={entries.length === 0}>
+          <button style={styles.exportBtn} className="bookkeeping-data-export-btn" onClick={handleExport} disabled={entries.length === 0}>
             ↓ Export XLSX
           </button>
         </div>
 
         {/* Summary cards */}
-        <div style={styles.summaryCards}>
-          <div style={{ ...styles.summaryCard, borderTop: '3px solid #2d4a2d' }}>
-            <div style={styles.summaryLabel}>TOTAL INCOME</div>
-            <div style={{ ...styles.summaryAmount, color: '#2d4a2d' }}>{fmt(totalIncome)}</div>
+        <div style={styles.summaryCards} className="bookkeeping-data-summary-cards">
+          <div style={{ ...styles.summaryCard, borderTop: '3px solid #2d4a2d' }} className="bookkeeping-data-summary-card">
+            <div style={styles.summaryLabel} className="bookkeeping-data-summary-label">TOTAL INCOME</div>
+            <div style={{ ...styles.summaryAmount, color: '#2d4a2d' }} className="bookkeeping-data-summary-amount">{fmt(totalIncome)}</div>
           </div>
-          <div style={{ ...styles.summaryCard, borderTop: '3px solid #c0392b' }}>
-            <div style={styles.summaryLabel}>TOTAL EXPENSE</div>
-            <div style={{ ...styles.summaryAmount, color: '#c0392b' }}>{fmt(totalExpense)}</div>
+          <div style={{ ...styles.summaryCard, borderTop: '3px solid #c0392b' }} className="bookkeeping-data-summary-card">
+            <div style={styles.summaryLabel} className="bookkeeping-data-summary-label">TOTAL EXPENSE</div>
+            <div style={{ ...styles.summaryAmount, color: '#c0392b' }} className="bookkeeping-data-summary-amount">{fmt(totalExpense)}</div>
           </div>
-          <div style={{ ...styles.summaryCard, borderTop: `3px solid ${balance >= 0 ? '#2d4a2d' : '#c0392b'}` }}>
-            <div style={styles.summaryLabel}>NET BALANCE</div>
-            <div style={{ ...styles.summaryAmount, color: balance >= 0 ? '#2d4a2d' : '#c0392b' }}>{fmt(balance)}</div>
+          <div style={{ ...styles.summaryCard, borderTop: `3px solid ${balance >= 0 ? '#2d4a2d' : '#c0392b'}` }} className="bookkeeping-data-summary-card">
+            <div style={styles.summaryLabel} className="bookkeeping-data-summary-label">NET BALANCE</div>
+            <div style={{ ...styles.summaryAmount, color: balance >= 0 ? '#2d4a2d' : '#c0392b' }} className="bookkeeping-data-summary-amount">{fmt(balance)}</div>
           </div>
-          <div style={{ ...styles.summaryCard, borderTop: '3px solid #c8b89a' }}>
-            <div style={styles.summaryLabel}>ENTRIES</div>
-            <div style={{ ...styles.summaryAmount, color: '#1a1a1a' }}>{entries.length}</div>
+          <div style={{ ...styles.summaryCard, borderTop: '3px solid #c8b89a' }} className="bookkeeping-data-summary-card">
+            <div style={styles.summaryLabel} className="bookkeeping-data-summary-label">ENTRIES</div>
+            <div style={{ ...styles.summaryAmount, color: '#1a1a1a' }} className="bookkeeping-data-summary-amount">{entries.length}</div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div style={styles.tabs}>
+        <div style={styles.tabs} className="bookkeeping-data-tabs">
           {['transactions', 'summary', 'charts'].map(t => (
             <button
               key={t}
               style={{ ...styles.tab, ...(tab === t ? styles.tabActive : {}) }}
+              className="bookkeeping-data-tab"
               onClick={() => setTab(t)}
             >
               {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -197,15 +199,15 @@ const BookkeepingData = () => {
           <>
             {/* TRANSACTIONS */}
             {tab === 'transactions' && (
-              <div style={styles.tableCard}>
+              <div style={styles.tableCard} className="bookkeeping-data-table-card">
                 {entries.length === 0 ? (
                   <div style={styles.empty}>No entries for this period.</div>
                 ) : (
-                  <table style={styles.table}>
+                  <table style={styles.table} className="bookkeeping-data-table">
                     <thead>
                       <tr>
                         {['Date', 'Type', 'Description', 'Category', 'Amount'].map(h => (
-                          <th key={h} style={styles.th}>{h}</th>
+                          <th key={h} style={styles.th} className="bookkeeping-data-th">{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -215,24 +217,24 @@ const BookkeepingData = () => {
                         const cat = e.category?.split(':')[0].trim();
                         return (
                           <tr key={e.id} style={i % 2 === 0 ? styles.trEven : styles.trOdd}>
-                            <td style={styles.td}>
+                            <td style={styles.td} className="bookkeeping-data-td">
                               <div style={styles.dateCell}>
                                 {d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })}
                               </div>
                               <div style={styles.timeCell}>{d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</div>
                             </td>
-                            <td style={styles.td}>
-                              <span style={{ ...styles.typePill, background: e.type === 'income' ? '#e8f5e9' : '#fdecea', color: e.type === 'income' ? '#2d4a2d' : '#c0392b' }}>
+                            <td style={styles.td} className="bookkeeping-data-td">
+                              <span style={{ ...styles.typePill, background: e.type === 'income' ? '#e8f5e9' : '#fdecea', color: e.type === 'income' ? '#2d4a2d' : '#c0392b' }} className="bookkeeping-data-type-pill">
                                 {e.type === 'income' ? '+ Income' : '− Expense'}
                               </span>
                             </td>
-                            <td style={{ ...styles.td, maxWidth: '220px' }}>{e.description}</td>
-                            <td style={styles.td}>
+                            <td style={{ ...styles.td, maxWidth: '220px' }} className="bookkeeping-data-td">{e.description}</td>
+                            <td style={styles.td} className="bookkeeping-data-td">
                               <span style={{ ...styles.catPill, background: CATEGORY_COLORS[cat] + '22', color: CATEGORY_COLORS[cat] || '#888' }}>
                                 {CATEGORY_LABELS[cat] || e.category}
                               </span>
                             </td>
-                            <td style={{ ...styles.td, textAlign: 'right', fontFamily: "'Courier New', monospace", fontWeight: '600', color: e.type === 'income' ? '#2d4a2d' : '#c0392b' }}>
+                            <td style={{ ...styles.td, textAlign: 'right', fontFamily: "'Courier New', monospace", fontWeight: '600', color: e.type === 'income' ? '#2d4a2d' : '#c0392b' }} className="bookkeeping-data-td">
                               {e.type === 'income' ? '+' : '−'} {Number(e.amount).toLocaleString('id-ID')}
                             </td>
                           </tr>
@@ -246,15 +248,15 @@ const BookkeepingData = () => {
 
             {/* MONTHLY SUMMARY */}
             {tab === 'summary' && (
-              <div style={styles.tableCard}>
+              <div style={styles.tableCard} className="bookkeeping-data-table-card">
                 {Object.keys(monthlyData).length === 0 ? (
                   <div style={styles.empty}>No data for this period.</div>
                 ) : (
-                  <table style={styles.table}>
+                  <table style={styles.table} className="bookkeeping-data-table">
                     <thead>
                       <tr>
                         {['Month', 'Income', 'Expense', 'Net'].map(h => (
-                          <th key={h} style={styles.th}>{h}</th>
+                          <th key={h} style={styles.th} className="bookkeeping-data-th">{h}</th>
                         ))}
                       </tr>
                     </thead>
@@ -263,10 +265,10 @@ const BookkeepingData = () => {
                         const net = m.income - m.expense;
                         return (
                           <tr key={key} style={i % 2 === 0 ? styles.trEven : styles.trOdd}>
-                            <td style={{ ...styles.td, fontWeight: '600' }}>{m.label}</td>
-                            <td style={{ ...styles.td, color: '#2d4a2d', fontFamily: "'Courier New', monospace" }}>{fmt(m.income)}</td>
-                            <td style={{ ...styles.td, color: '#c0392b', fontFamily: "'Courier New', monospace" }}>{fmt(m.expense)}</td>
-                            <td style={{ ...styles.td, fontFamily: "'Courier New', monospace", fontWeight: '700', color: net >= 0 ? '#2d4a2d' : '#c0392b' }}>{fmt(net)}</td>
+                            <td style={{ ...styles.td, fontWeight: '600' }} className="bookkeeping-data-td">{m.label}</td>
+                            <td style={{ ...styles.td, color: '#2d4a2d', fontFamily: "'Courier New', monospace" }} className="bookkeeping-data-td">{fmt(m.income)}</td>
+                            <td style={{ ...styles.td, color: '#c0392b', fontFamily: "'Courier New', monospace" }} className="bookkeeping-data-td">{fmt(m.expense)}</td>
+                            <td style={{ ...styles.td, fontFamily: "'Courier New', monospace", fontWeight: '700', color: net >= 0 ? '#2d4a2d' : '#c0392b' }} className="bookkeeping-data-td">{fmt(net)}</td>
                           </tr>
                         );
                       })}
@@ -278,10 +280,10 @@ const BookkeepingData = () => {
 
             {/* CHARTS */}
             {tab === 'charts' && (
-              <div style={styles.chartsGrid}>
+              <div style={styles.chartsGrid} className="bookkeeping-data-charts-grid">
                 {/* Category breakdown */}
-                <div style={styles.chartCard}>
-                  <h3 style={styles.chartTitle}>Expenses by Category</h3>
+                <div style={styles.chartCard} className="bookkeeping-data-chart-card">
+                  <h3 style={styles.chartTitle} className="bookkeeping-data-chart-title">Expenses by Category</h3>
                   {Object.keys(categoryTotals).length === 0 ? (
                     <div style={styles.empty}>No expense data.</div>
                   ) : (
@@ -289,8 +291,8 @@ const BookkeepingData = () => {
                       {Object.entries(categoryTotals)
                         .sort(([, a], [, b]) => b - a)
                         .map(([cat, amt]) => (
-                          <div key={cat} style={styles.barRow}>
-                            <div style={styles.barLabel}>{CATEGORY_LABELS[cat] || cat}</div>
+                          <div key={cat} style={styles.barRow} className="bookkeeping-data-bar-row">
+                            <div style={styles.barLabel} className="bookkeeping-data-bar-label">{CATEGORY_LABELS[cat] || cat}</div>
                             <div style={styles.barTrack}>
                               <div style={{
                                 ...styles.barFill,
@@ -298,7 +300,7 @@ const BookkeepingData = () => {
                                 background: CATEGORY_COLORS[cat] || '#888',
                               }} />
                             </div>
-                            <div style={styles.barAmount}>{fmt(amt)}</div>
+                            <div style={styles.barAmount} className="bookkeeping-data-bar-amount">{fmt(amt)}</div>
                           </div>
                         ))}
                     </div>
@@ -306,8 +308,8 @@ const BookkeepingData = () => {
                 </div>
 
                 {/* Monthly income vs expense */}
-                <div style={styles.chartCard}>
-                  <h3 style={styles.chartTitle}>Monthly Income vs Expense</h3>
+                <div style={styles.chartCard} className="bookkeeping-data-chart-card">
+                  <h3 style={styles.chartTitle} className="bookkeeping-data-chart-title">Monthly Income vs Expense</h3>
                   {Object.keys(monthlyData).length === 0 ? (
                     <div style={styles.empty}>No data.</div>
                   ) : (
@@ -319,19 +321,19 @@ const BookkeepingData = () => {
                             <div style={{ fontSize: '11px', color: '#888', fontFamily: 'monospace', marginBottom: '6px', letterSpacing: '1px' }}>
                               {m.label.toUpperCase()}
                             </div>
-                            <div style={styles.barRow}>
-                              <div style={{ ...styles.barLabel, color: '#2d4a2d', width: '60px' }}>Income</div>
+                            <div style={styles.barRow} className="bookkeeping-data-bar-row">
+                              <div style={{ ...styles.barLabel, color: '#2d4a2d', width: '60px' }} className="bookkeeping-data-bar-label">Income</div>
                               <div style={styles.barTrack}>
                                 <div style={{ ...styles.barFill, width: `${(m.income / maxMonthlyAmount) * 100}%`, background: '#2d4a2d' }} />
                               </div>
-                              <div style={styles.barAmount}>{fmt(m.income)}</div>
+                              <div style={styles.barAmount} className="bookkeeping-data-bar-amount">{fmt(m.income)}</div>
                             </div>
-                            <div style={styles.barRow}>
-                              <div style={{ ...styles.barLabel, color: '#c0392b', width: '60px' }}>Expense</div>
+                            <div style={styles.barRow} className="bookkeeping-data-bar-row">
+                              <div style={{ ...styles.barLabel, color: '#c0392b', width: '60px' }} className="bookkeeping-data-bar-label">Expense</div>
                               <div style={styles.barTrack}>
                                 <div style={{ ...styles.barFill, width: `${(m.expense / maxMonthlyAmount) * 100}%`, background: '#c0392b' }} />
                               </div>
-                              <div style={styles.barAmount}>{fmt(m.expense)}</div>
+                              <div style={styles.barAmount} className="bookkeeping-data-bar-amount">{fmt(m.expense)}</div>
                             </div>
                           </div>
                         ))}
