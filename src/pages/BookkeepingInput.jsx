@@ -1,7 +1,7 @@
 // src/pages/BookkeepingInput.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import '../styles/bookkeeping.css';
@@ -26,7 +26,41 @@ const BookkeepingInput = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [todaySpent, setTodaySpent] = useState(0);
   const navigate = useNavigate();
+
+  const fmt = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
+
+  const fetchTodaySpent = async () => {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      const start = Timestamp.fromDate(today);
+      const end = Timestamp.fromDate(tomorrow);
+
+      const q = query(
+        collection(db, 'bookkeeping'),
+        where('date', '>=', start),
+        where('date', '<', end),
+        where('type', '==', 'expense'),
+        where('uid', '==', auth.currentUser?.uid),
+        orderBy('date', 'desc')
+      );
+
+      const snap = await getDocs(q);
+      const total = snap.docs.reduce((sum, doc) => sum + doc.data().amount, 0);
+      setTodaySpent(total);
+    } catch (err) {
+      console.error('Error fetching today spent:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTodaySpent();
+  }, []);
 
   const formatAmount = (val) => {
     const num = val.replace(/\D/g, '');
@@ -67,6 +101,8 @@ const BookkeepingInput = () => {
       setOtherCategory('');
       setType('expense');
       setTimeout(() => setSuccess(false), 3000);
+      // Refresh today's spent after successful entry
+      fetchTodaySpent();
     } catch (err) {
       setError('Failed to save. Try again.');
       console.error(err);
@@ -212,6 +248,10 @@ const BookkeepingInput = () => {
 
         {/* Decorative rule */}
         <div style={styles.aside} className="bookkeeping-input-aside">
+          <div style={styles.spendingCard} className="bookkeeping-spending-card">
+            <div style={styles.spendingLabel} className="bookkeeping-spending-label">TODAY'S SPENDING</div>
+            <div style={styles.spendingAmount} className="bookkeeping-spending-amount">{fmt(todaySpent)}</div>
+          </div>
           <div style={styles.ledgerLines}>
             {[...Array(12)].map((_, i) => (
               <div key={i} style={styles.ledgerLine} />
@@ -440,6 +480,28 @@ const styles = {
   },
   aside: {
     paddingTop: '8px',
+  },
+  spendingCard: {
+    background: '#fffef9',
+    border: '1px solid #c8b89a',
+    borderRadius: '2px',
+    padding: '20px',
+    marginBottom: '24px',
+    boxShadow: '2px 2px 0px #c8b89a',
+  },
+  spendingLabel: {
+    fontSize: '10px',
+    letterSpacing: '2px',
+    color: '#888',
+    fontFamily: "'Courier New', monospace",
+    marginBottom: '8px',
+  },
+  spendingAmount: {
+    fontSize: '28px',
+    fontWeight: '700',
+    color: '#c0392b',
+    fontFamily: "'Courier New', monospace",
+    letterSpacing: '1px',
   },
   ledgerLines: {
     display: 'flex',
