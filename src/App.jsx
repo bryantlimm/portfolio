@@ -10,6 +10,9 @@ import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import BekasBryant from "./pages/BekasBryant";
+import BookkeepingLogin from './pages/BookkeepingLogin';
+import BookkeepingInput from './pages/BookkeepingInput';
+import BookkeepingData from './pages/BookkeepingData';
 
 function AppContent() {
   const location = useLocation();
@@ -34,6 +37,11 @@ function AppContent() {
           <Route path="/bekasbryant" element={<BekasBryant />} />
           <Route path="/bekasbryant/:productId" element={<BekasBryant />} />
           
+          {/* bookkeeping site */}
+          <Route path="/bookkeeping-login" element={<BookkeepingLogin />} />
+          <Route path="/bookkeeping" element={<ProtectedRoute><BookkeepingInput /></ProtectedRoute>} />
+          <Route path="/bookkeeping/data" element={<ProtectedRoute><BookkeepingData /></ProtectedRoute>} />
+
           {/* Login Route */}
           <Route path="/login" element={<Login />} />
 
