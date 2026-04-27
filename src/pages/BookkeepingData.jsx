@@ -92,7 +92,8 @@ const BookkeepingData = () => {
   }, {});
 
   const handleExport = () => {
-    const rows = entries.map(e => ({
+    // Only export expenses, not income
+    const rows = entries.filter(e => e.type === 'expense').map(e => ({
       Date: e.date.toDate().toLocaleDateString('id-ID'),
       Time: e.date.toDate().toLocaleTimeString('id-ID'),
       Type: e.type === 'income' ? 'Income' : 'Expense',

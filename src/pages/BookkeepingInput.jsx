@@ -1,20 +1,20 @@
 // src/pages/BookkeepingInput.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import { db, auth } from '../firebase';
-import { collection, addDoc, Timestamp, query, where, orderBy, getDocs } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import '../styles/bookkeeping.css';
 
 const CATEGORIES = [
-  { value: 'food', label: '🍜 Food & Drinks' },
-  { value: 'transport', label: '🚗 Transport' },
-  { value: 'offering', label: '⛪ Offering' },
-  { value: 'shopping', label: '🛍️ Shopping' },
-  { value: 'bills', label: '🧾 Bills & Utilities' },
-  { value: 'health', label: '💊 Health' },
-  { value: 'entertainment', label: '🎮 Entertainment' },
-  { value: 'other', label: '📦 Other' },
+  { value: 'food', label: 'Food & Drinks' },
+  { value: 'transport', label: 'Transport' },
+  { value: 'offering', label: 'Offering' },
+  { value: 'shopping', label: 'Shopping' },
+  { value: 'bills', label: 'Bills & Utilities' },
+  { value: 'health', label: 'Health' },
+  { value: 'entertainment', label: 'Entertainment' },
+  { value: 'other', label: 'Other' },
 ];
 
 const BookkeepingInput = () => {
@@ -22,45 +22,14 @@ const BookkeepingInput = () => {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [otherCategory, setOtherCategory] = useState('');
-  const [type, setType] = useState('expense'); // 'expense' or 'income'
+  const [type, setType] = useState('expense');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-  const [todaySpent, setTodaySpent] = useState(0);
+//   tsp
+
   const navigate = useNavigate();
 
-  const fmt = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
-
-  const fetchTodaySpent = async () => {
-    try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      const start = Timestamp.fromDate(today);
-      const end = Timestamp.fromDate(tomorrow);
-
-      const q = query(
-        collection(db, 'bookkeeping'),
-        where('date', '>=', start),
-        where('date', '<', end),
-        where('type', '==', 'expense'),
-        where('uid', '==', auth.currentUser?.uid),
-        orderBy('date', 'desc')
-      );
-
-      const snap = await getDocs(q);
-      const total = snap.docs.reduce((sum, doc) => sum + doc.data().amount, 0);
-      setTodaySpent(total);
-    } catch (err) {
-      console.error('Error fetching today spent:', err);
-    }
-  };
-
-  useEffect(() => {
-    fetchTodaySpent();
-  }, []);
 
   const formatAmount = (val) => {
     const num = val.replace(/\D/g, '');
@@ -86,13 +55,14 @@ const BookkeepingInput = () => {
     setError('');
     try {
       const rawAmount = parseInt(amount.replace(/\./g, ''), 10);
+      const uid = auth.currentUser?.uid;
       await addDoc(collection(db, 'bookkeeping'), {
         description,
         amount: rawAmount,
         category: category === 'other' ? `other: ${otherCategory}` : category,
         type,
         date: Timestamp.now(),
-        uid: auth.currentUser?.uid,
+        uid,
       });
       setSuccess(true);
       setDescription('');
@@ -101,8 +71,6 @@ const BookkeepingInput = () => {
       setOtherCategory('');
       setType('expense');
       setTimeout(() => setSuccess(false), 3000);
-      // Refresh today's spent after successful entry
-      fetchTodaySpent();
     } catch (err) {
       setError('Failed to save. Try again.');
       console.error(err);
@@ -244,20 +212,6 @@ const BookkeepingInput = () => {
               {loading ? 'Saving...' : 'Record Entry ↵'}
             </button>
           </form>
-        </div>
-
-        {/* Decorative rule */}
-        <div style={styles.aside} className="bookkeeping-input-aside">
-          <div style={styles.spendingCard} className="bookkeeping-spending-card">
-            <div style={styles.spendingLabel} className="bookkeeping-spending-label">TODAY'S SPENDING</div>
-            <div style={styles.spendingAmount} className="bookkeeping-spending-amount">{fmt(todaySpent)}</div>
-          </div>
-          <div style={styles.ledgerLines}>
-            {[...Array(12)].map((_, i) => (
-              <div key={i} style={styles.ledgerLine} />
-            ))}
-          </div>
-          <p style={styles.asideNote}>Entries are saved with today's date and time automatically.</p>
         </div>
       </div>
     </div>
