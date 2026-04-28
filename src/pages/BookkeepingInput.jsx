@@ -1,10 +1,9 @@
 // src/pages/BookkeepingInput.jsx
-import React, { useState, } from 'react';
+import React, { useState } from 'react';
 import { db, auth } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import '../styles/bookkeeping.css';
 
 const CATEGORIES = [
   { value: 'food', label: 'Food & Drinks' },
@@ -26,10 +25,7 @@ const BookkeepingInput = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-//   tsp
-
   const navigate = useNavigate();
-
 
   const formatAmount = (val) => {
     const num = val.replace(/\D/g, '');
@@ -85,397 +81,445 @@ const BookkeepingInput = () => {
   };
 
   return (
-    <div style={styles.page}>
-      {/* Top bar */}
-      <div style={styles.topbar} className="bookkeeping-input-topbar">
-        <div style={styles.topbarLeft} className="bookkeeping-input-topbar-left">
-          <span style={styles.logo} className="bookkeeping-input-logo">₊ Hemat woi</span>
-          <span style={styles.dateStamp} className="bookkeeping-input-date-stamp">
+    <>
+      <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        .bk-page {
+          min-height: 100vh;
+          background: #f1f5f9;
+          font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .bk-topbar {
+          background: #ffffff;
+          padding: 14px 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #e2e8f0;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+        }
+
+        .bk-logo {
+          font-size: 17px;
+          font-weight: 800;
+          color: #0f172a;
+          letter-spacing: -0.5px;
+        }
+
+        .bk-logo span {
+          color: #2563eb;
+        }
+
+        .bk-topbar-right {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .bk-nav-btn {
+          background: #eff6ff;
+          border: 1.5px solid #bfdbfe;
+          color: #2563eb;
+          padding: 8px 16px;
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          border-radius: 10px;
+          transition: all 0.2s;
+          white-space: nowrap;
+        }
+
+        .bk-nav-btn:hover {
+          background: #2563eb;
+          color: white;
+          border-color: #2563eb;
+        }
+
+        .bk-signout-btn {
+          background: transparent;
+          border: none;
+          color: #94a3b8;
+          font-family: inherit;
+          font-size: 13px;
+          font-weight: 500;
+          cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 8px;
+          transition: all 0.2s;
+        }
+
+        .bk-signout-btn:hover {
+          background: #f1f5f9;
+          color: #64748b;
+        }
+
+        .bk-main {
+          max-width: 520px;
+          margin: 0 auto;
+          padding: 28px 16px 48px;
+        }
+
+        .bk-date-tag {
+          text-align: center;
+          font-size: 12px;
+          color: #94a3b8;
+          font-weight: 500;
+          margin-bottom: 20px;
+          letter-spacing: 0.3px;
+        }
+
+        .bk-card {
+          background: #ffffff;
+          border-radius: 20px;
+          padding: 28px 24px;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+          border: 1px solid #e2e8f0;
+        }
+
+        .bk-card-title {
+          font-size: 22px;
+          font-weight: 800;
+          color: #0f172a;
+          margin-bottom: 4px;
+          letter-spacing: -0.5px;
+        }
+
+        .bk-card-sub {
+          font-size: 13px;
+          color: #94a3b8;
+          font-weight: 500;
+          margin-bottom: 24px;
+        }
+
+        .bk-success {
+          background: #eff6ff;
+          border: 1.5px solid #bfdbfe;
+          color: #1d4ed8;
+          padding: 12px 16px;
+          border-radius: 12px;
+          font-size: 13px;
+          font-weight: 600;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .bk-error {
+          background: #fef2f2;
+          border: 1.5px solid #fca5a5;
+          color: #dc2626;
+          padding: 12px 16px;
+          border-radius: 12px;
+          font-size: 13px;
+          font-weight: 600;
+          margin-bottom: 20px;
+        }
+
+        .bk-form {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        .bk-field {
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+        }
+
+        .bk-label {
+          font-size: 12px;
+          font-weight: 700;
+          color: #64748b;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+        }
+
+        .bk-type-toggle {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        .bk-type-btn {
+          padding: 12px;
+          border: 2px solid #e2e8f0;
+          background: #f8fafc;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          border-radius: 12px;
+          transition: all 0.2s;
+          color: #94a3b8;
+        }
+
+        .bk-type-btn.expense-active {
+          background: #fef2f2;
+          border-color: #ef4444;
+          color: #dc2626;
+        }
+
+        .bk-type-btn.income-active {
+          background: #eff6ff;
+          border-color: #2563eb;
+          color: #2563eb;
+        }
+
+        .bk-input {
+          padding: 13px 16px;
+          border: 2px solid #e2e8f0;
+          border-radius: 12px;
+          background: #f8fafc;
+          font-size: 15px;
+          font-family: inherit;
+          font-weight: 500;
+          color: #0f172a;
+          outline: none;
+          transition: all 0.2s;
+          width: 100%;
+        }
+
+        .bk-input:focus {
+          border-color: #2563eb;
+          background: #fff;
+          box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .bk-input::placeholder { color: #cbd5e1; }
+
+        .bk-amount-wrap {
+          display: flex;
+          border: 2px solid #e2e8f0;
+          border-radius: 12px;
+          overflow: hidden;
+          background: #f8fafc;
+          transition: all 0.2s;
+        }
+
+        .bk-amount-wrap:focus-within {
+          border-color: #2563eb;
+          background: #fff;
+          box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .bk-currency {
+          padding: 13px 14px;
+          background: #f1f5f9;
+          border-right: 2px solid #e2e8f0;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 700;
+          color: #64748b;
+          flex-shrink: 0;
+        }
+
+        .bk-amount-input {
+          padding: 13px 14px;
+          border: none;
+          background: transparent;
+          font-size: 20px;
+          font-family: inherit;
+          font-weight: 700;
+          color: #0f172a;
+          outline: none;
+          width: 100%;
+          letter-spacing: 0.5px;
+        }
+
+        .bk-amount-input::placeholder { color: #cbd5e1; font-weight: 400; font-size: 16px; }
+
+        .bk-select {
+          padding: 13px 16px;
+          border: 2px solid #e2e8f0;
+          border-radius: 12px;
+          background: #f8fafc;
+          font-size: 14px;
+          font-family: inherit;
+          font-weight: 500;
+          color: #0f172a;
+          outline: none;
+          cursor: pointer;
+          transition: all 0.2s;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          padding-right: 40px;
+        }
+
+        .bk-select:focus {
+          border-color: #2563eb;
+          background-color: #fff;
+          box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+
+        .bk-submit {
+          margin-top: 6px;
+          padding: 16px;
+          background: #2563eb;
+          color: #ffffff;
+          border: none;
+          border-radius: 14px;
+          font-size: 15px;
+          font-family: inherit;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+          letter-spacing: 0.3px;
+          box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+        }
+
+        .bk-submit:hover:not(:disabled) {
+          background: #1d4ed8;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 18px rgba(37,99,235,0.35);
+        }
+
+        .bk-submit:active {
+          transform: translateY(0);
+        }
+
+        .bk-submit:disabled {
+          opacity: 0.65;
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 480px) {
+          .bk-topbar { padding: 12px 16px; }
+          .bk-logo { font-size: 15px; }
+          .bk-card { padding: 22px 18px; }
+          .bk-main { padding: 20px 12px 40px; }
+        }
+      `}</style>
+
+      <div className="bk-page">
+        <div className="bk-topbar">
+          <div className="bk-logo">Hemat woi</div>
+          <div className="bk-topbar-right">
+            <button className="bk-nav-btn" onClick={() => navigate('/bookkeeping/data')}>
+              View Data →
+            </button>
+            <button className="bk-signout-btn" onClick={handleSignOut}>
+              Sign out
+            </button>
+          </div>
+        </div>
+
+        <div className="bk-main">
+          <div className="bk-date-tag">
             {new Date().toLocaleDateString('en-EN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-          </span>
-        </div>
-        <div style={styles.topbarRight} className="bookkeeping-input-topbar-right">
-          <button style={styles.navBtn} className="bookkeeping-input-nav-btn" onClick={() => navigate('/bookkeeping/data')}>
-            View Data →
-          </button>
-          <button style={styles.signOutBtn} className="bookkeeping-input-sign-out-btn" onClick={handleSignOut}>
-            Sign Out
-          </button>
-        </div>
-      </div>
+          </div>
 
-      {/* Main */}
-      <div style={styles.main} className="bookkeeping-input-main">
-        <div style={styles.formCard} className="bookkeeping-input-form-card">
-          <h2 style={styles.cardTitle} className="bookkeeping-input-card-title">New Entry</h2>
-          <p style={styles.cardSub}>Record a transaction for today</p>
+          <div className="bk-card">
+            <h2 className="bk-card-title">New Entry</h2>
+            <p className="bk-card-sub">Record a transaction for today</p>
 
-          {success && (
-            <div style={styles.successBanner}>
-              ✓ Entry recorded successfully
-            </div>
-          )}
-          {error && (
-            <div style={styles.errorBanner}>{error}</div>
-          )}
-
-          <form onSubmit={handleSubmit} style={styles.form} className="bookkeeping-input-form">
-            {/* Type toggle */}
-            <div style={styles.field}>
-              <label style={styles.label}>TYPE</label>
-              <div style={styles.typeToggle} className="bookkeeping-input-type-toggle">
-                <button
-                  type="button"
-                  style={{ ...styles.typeBtn, ...(type === 'expense' ? styles.typeBtnActive : {}) }}
-                  className="bookkeeping-input-type-btn"
-                  onClick={() => setType('expense')}
-                >
-                  − Expense
-                </button>
-                <button
-                  type="button"
-                  style={{ ...styles.typeBtn, ...(type === 'income' ? styles.typeBtnIncome : {}) }}
-                  className="bookkeeping-input-type-btn"
-                  onClick={() => setType('income')}
-                >
-                  + Income
-                </button>
-              </div>
-            </div>
-
-            {/* Description */}
-            <div style={styles.field}>
-              <label style={styles.label}>DESCRIPTION</label>
-              <input
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                style={styles.input}
-                className="bookkeeping-input-input"
-                placeholder="e.g. McDonalds with friends"
-                required
-              />
-            </div>
-
-            {/* Amount */}
-            <div style={styles.field}>
-              <label style={styles.label}>AMOUNT (IDR)</label>
-              <div style={styles.amountWrapper} className="bookkeeping-input-amount-wrapper">
-                <span style={styles.currencyPrefix} className="bookkeeping-input-currency-prefix">Rp</span>
-                <input
-                  type="text"
-                  value={amount}
-                  onChange={handleAmountChange}
-                  style={styles.amountInput}
-                  className="bookkeeping-input-amount-input"
-                  placeholder="0"
-                  required
-                  inputMode="numeric"
-                />
-              </div>
-            </div>
-
-            {/* Category */}
-            <div style={styles.field}>
-              <label style={styles.label}>CATEGORY</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                style={styles.select}
-                className="bookkeeping-input-select"
-                required
-              >
-                <option value="">Select category...</option>
-                {CATEGORIES.map((c) => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Other specify */}
-            {category === 'other' && (
-              <div style={styles.field}>
-                <label style={styles.label}>SPECIFY</label>
-                <input
-                  type="text"
-                  value={otherCategory}
-                  onChange={(e) => setOtherCategory(e.target.value)}
-                  style={styles.input}
-                  className="bookkeeping-input-input"
-                  placeholder="Describe the category..."
-                  required
-                />
+            {success && (
+              <div className="bk-success">
+                ✓ Entry recorded successfully!
               </div>
             )}
+            {error && (
+              <div className="bk-error">{error}</div>
+            )}
 
-            <button type="submit" style={styles.submitBtn} className="bookkeeping-input-submit-btn" disabled={loading}>
-              {loading ? 'Saving...' : 'Record Entry ↵'}
-            </button>
-          </form>
+            <form onSubmit={handleSubmit} className="bk-form">
+              <div className="bk-field">
+                <label className="bk-label">Type</label>
+                <div className="bk-type-toggle">
+                  <button
+                    type="button"
+                    className={`bk-type-btn ${type === 'expense' ? 'expense-active' : ''}`}
+                    onClick={() => setType('expense')}
+                  >
+                    − Expense
+                  </button>
+                  <button
+                    type="button"
+                    className={`bk-type-btn ${type === 'income' ? 'income-active' : ''}`}
+                    onClick={() => setType('income')}
+                  >
+                    + Income
+                  </button>
+                </div>
+              </div>
+
+              <div className="bk-field">
+                <label className="bk-label">Description</label>
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="bk-input"
+                  placeholder="e.g. McDonalds with friends"
+                  required
+                />
+              </div>
+
+              <div className="bk-field">
+                <label className="bk-label">Amount (IDR)</label>
+                <div className="bk-amount-wrap">
+                  <span className="bk-currency">Rp</span>
+                  <input
+                    type="text"
+                    value={amount}
+                    onChange={handleAmountChange}
+                    className="bk-amount-input"
+                    placeholder="0"
+                    required
+                    inputMode="numeric"
+                  />
+                </div>
+              </div>
+
+              <div className="bk-field">
+                <label className="bk-label">Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="bk-select"
+                  required
+                >
+                  <option value="">Select category...</option>
+                  {CATEGORIES.map((c) => (
+                    <option key={c.value} value={c.value}>{c.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {category === 'other' && (
+                <div className="bk-field">
+                  <label className="bk-label">Specify Category</label>
+                  <input
+                    type="text"
+                    value={otherCategory}
+                    onChange={(e) => setOtherCategory(e.target.value)}
+                    className="bk-input"
+                    placeholder="Describe the category..."
+                    required
+                  />
+                </div>
+              )}
+
+              <button type="submit" className="bk-submit" disabled={loading}>
+                {loading ? 'Saving...' : 'Record Entry ↵'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
-};
-
-const styles = {
-  page: {
-    minHeight: '100vh',
-    background: '#f5f0e8',
-    fontFamily: "'Georgia', serif",
-  },
-  topbar: {
-    background: '#2d4a2d',
-    padding: '14px 40px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottom: '2px solid #1a2e1a',
-  },
-  topbarLeft: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '24px',
-  },
-  logo: {
-    color: '#f5f0e8',
-    fontSize: '18px',
-    fontFamily: "'Courier New', monospace",
-    fontWeight: 'bold',
-    letterSpacing: '1px',
-  },
-  dateStamp: {
-    color: '#a8c5a8',
-    fontSize: '12px',
-    fontFamily: "'Courier New', monospace",
-    letterSpacing: '0.5px',
-  },
-  topbarRight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-  },
-  navBtn: {
-    background: 'transparent',
-    border: '1px solid #a8c5a8',
-    color: '#a8c5a8',
-    padding: '6px 16px',
-    fontFamily: "'Courier New', monospace",
-    fontSize: '12px',
-    cursor: 'pointer',
-    letterSpacing: '0.5px',
-    transition: 'all 0.2s',
-    borderRadius: '1px',
-  },
-  signOutBtn: {
-    background: 'transparent',
-    border: 'none',
-    color: '#7a9a7a',
-    fontFamily: "'Courier New', monospace",
-    fontSize: '11px',
-    cursor: 'pointer',
-    letterSpacing: '0.5px',
-  },
-  main: {
-    maxWidth: '900px',
-    margin: '0 auto',
-    padding: '48px 24px',
-    display: 'grid',
-    gridTemplateColumns: '1fr 200px',
-    gap: '40px',
-    alignItems: 'start',
-  },
-  formCard: {
-    background: '#fffef9',
-    border: '1px solid #c8b89a',
-    borderRadius: '2px',
-    padding: '40px',
-    boxShadow: '4px 4px 0px #c8b89a',
-  },
-  cardTitle: {
-    fontSize: '24px',
-    fontWeight: '700',
-    color: '#1a1a1a',
-    margin: '0 0 4px 0',
-  },
-  cardSub: {
-    fontSize: '12px',
-    color: '#999',
-    margin: '0 0 28px 0',
-    fontFamily: "'Courier New', monospace",
-    letterSpacing: '1px',
-    textTransform: 'uppercase',
-  },
-  successBanner: {
-    background: '#f0fff0',
-    border: '1px solid #a8c5a8',
-    color: '#2d4a2d',
-    padding: '10px 14px',
-    fontSize: '13px',
-    marginBottom: '20px',
-    fontFamily: "'Courier New', monospace",
-  },
-  errorBanner: {
-    background: '#fff0f0',
-    border: '1px solid #e8b4b4',
-    color: '#c0392b',
-    padding: '10px 14px',
-    fontSize: '13px',
-    marginBottom: '20px',
-    fontFamily: "'Courier New', monospace",
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '22px',
-  },
-  field: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '7px',
-  },
-  label: {
-    fontSize: '10px',
-    letterSpacing: '2px',
-    color: '#888',
-    fontFamily: "'Courier New', monospace",
-  },
-  input: {
-    padding: '11px 13px',
-    border: '1px solid #c8b89a',
-    borderRadius: '1px',
-    background: '#f5f0e8',
-    fontSize: '15px',
-    fontFamily: "'Georgia', serif",
-    color: '#1a1a1a',
-    outline: 'none',
-  },
-  amountWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    border: '1px solid #c8b89a',
-    background: '#f5f0e8',
-    borderRadius: '1px',
-    overflow: 'hidden',
-  },
-  currencyPrefix: {
-    padding: '11px 13px',
-    background: '#e8e0d0',
-    borderRight: '1px solid #c8b89a',
-    fontFamily: "'Courier New', monospace",
-    fontSize: '14px',
-    color: '#666',
-    flexShrink: 0,
-  },
-  amountInput: {
-    padding: '11px 13px',
-    border: 'none',
-    background: 'transparent',
-    fontSize: '18px',
-    fontFamily: "'Courier New', monospace",
-    color: '#1a1a1a',
-    outline: 'none',
-    width: '100%',
-    fontWeight: '600',
-    letterSpacing: '1px',
-  },
-  select: {
-    padding: '11px 13px',
-    border: '1px solid #c8b89a',
-    borderRadius: '1px',
-    background: '#f5f0e8',
-    fontSize: '14px',
-    fontFamily: "'Georgia', serif",
-    color: '#1a1a1a',
-    outline: 'none',
-    cursor: 'pointer',
-  },
-  typeToggle: {
-    display: 'flex',
-    gap: '0',
-    border: '1px solid #c8b89a',
-    borderRadius: '1px',
-    overflow: 'hidden',
-  },
-  typeBtn: {
-    flex: 1,
-    padding: '10px',
-    border: 'none',
-    background: '#f5f0e8',
-    fontFamily: "'Courier New', monospace",
-    fontSize: '13px',
-    color: '#888',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    letterSpacing: '0.5px',
-  },
-  typeBtnActive: {
-    background: '#c0392b',
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  typeBtnIncome: {
-    background: '#2d4a2d',
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  submitBtn: {
-    marginTop: '8px',
-    padding: '14px',
-    background: '#2d4a2d',
-    color: '#f5f0e8',
-    border: 'none',
-    borderRadius: '1px',
-    fontSize: '15px',
-    fontFamily: "'Courier New', monospace",
-    letterSpacing: '1px',
-    cursor: 'pointer',
-    transition: 'background 0.2s',
-  },
-  aside: {
-    paddingTop: '8px',
-  },
-  spendingCard: {
-    background: '#fffef9',
-    border: '1px solid #c8b89a',
-    borderRadius: '2px',
-    padding: '20px',
-    marginBottom: '24px',
-    boxShadow: '2px 2px 0px #c8b89a',
-  },
-  spendingLabel: {
-    fontSize: '10px',
-    letterSpacing: '2px',
-    color: '#888',
-    fontFamily: "'Courier New', monospace",
-    marginBottom: '8px',
-  },
-  spendingAmount: {
-    fontSize: '28px',
-    fontWeight: '700',
-    color: '#c0392b',
-    fontFamily: "'Courier New', monospace",
-    letterSpacing: '1px',
-  },
-  ledgerLines: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-    marginBottom: '20px',
-    opacity: 0.3,
-  },
-  ledgerLine: {
-    height: '1px',
-    background: '#c8b89a',
-    width: '100%',
-  },
-  asideNote: {
-    fontSize: '11px',
-    color: '#aaa',
-    fontFamily: "'Courier New', monospace",
-    lineHeight: '1.6',
-    letterSpacing: '0.3px',
-  },
 };
 
 export default BookkeepingInput;
